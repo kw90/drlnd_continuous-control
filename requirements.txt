@@ -1,0 +1,17 @@
+docopt==0.6.2
+grpcio==1.29.0
+gym==0.17.2
+ipykernel==5.3.0
+jupyter==1.0.0
+matplotlib==3.2.1
+numpy==1.18.4
+pandas==1.0.4
+pillow==7.1.2
+protobuf==3.12.2
+pyglet==1.5.0
+pytest==5.4.2
+pyyaml==5.3.1
+scipy==1.4.1
+tensorflow==2.2.0
+torch==1.5.0
+unityagents==0.4.0
