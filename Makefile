@@ -24,6 +24,7 @@ export PROJECT_NAME
 install:
 	conda create --name drlnd_control python=3.6
 	($(CONDA_ACTIVATE) drlnd_control ; python --version)
+	conda install mpi4py
 	pip install -r $(PWD)/requirements.txt
 	python -m ipykernel install --user --name drlnd_control --display-name "drlnd_control"
 

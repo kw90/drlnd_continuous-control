@@ -129,5 +129,7 @@ dmypy.json
 .pyre/
 
 # Custom
-Banana_Linux/
+Reacher*/
 __pycache__/
+.DS_Store
+.vscode/
