@@ -23,9 +23,11 @@ from ddpg_agent import DDPGAgent
 
 def create_ddpg_continuous_config() -> Config:
     config = Config()
-    config.task = Task(environment_name='Reacher', is_training=True)
+    config.task = Task(environment_name='./Reacher_Linux/Reacher.x86_64', is_training=True)
     config.evaluation_interval = int(1e4)
-    config.evaluation_episodes = 20
+    config.evaluation_episodes = 100
+    config.save_interval = int(1e5)
+    config.tag = '1st'
     config.max_steps = int(1e6)
     config.network = lambda: ActorCriticArchitecture(
         config.state_size,
@@ -63,7 +65,6 @@ def run_steps_with(agent: BaseAgent):
             agent.close()
             break
         agent.step()
-        agent.switch_task()
 
 
 if __name__ == '__main__':

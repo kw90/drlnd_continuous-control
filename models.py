@@ -63,20 +63,25 @@ class FullyConnectedNetwork(nn.Module):
         self.seed = torch.manual_seed(seed)
         self.gate = gate
         dimensions = (state_size, ) + hidden_units
-        self.layers = [nn.Linear(layer_in, layer_out)
-                       for layer_in, layer_out
-                       in zip(dimensions[:-1], dimensions[1:])]
-        if layer_init is None:
-            [LayerFill(layer=layer).fill_input_tensor_scale(1.0)
-             for layer
-             in self.layers]
-        else:
-            [layer_init(layer) for layer in self.layers]
-        self.feature_dimensions = dimensions[-1]
+        self.layer1 = nn.Linear(state_size, 128)
+        self.layer2 = nn.Linear(128, 128)
+        # if layer_init is None:
+        #     self.layers = [LayerFill(layer=nn.Linear(layer_in, layer_out)).fill_input_tensor_scale(1e-3)
+        #      for layer_in, layer_out
+        #      in zip(dimensions[:-1], dimensions[1:])]
+        # else:
+        #     self.layers = [layer_init(nn.Linear(layer_in, layer_out))
+        #      for layer_in, layer_out
+        #      in zip(dimensions[:-1], dimensions[1:])]
+        self.feature_dimensions = 128
+        # self.feature_dimensions = dimensions[-1]
 
     def forward(self, x):
         """Build a network that maps state -> action values."""
-        return [self.gate(layer(x)) for layer in self.layers]
+        # return [self.gate(layer(x)) for layer in self.layers]
+        x = self.gate(self.layer1(x))
+        x = self.gate(self.layer2(x))
+        return x
 
 
 class ActorCriticArchitecture(nn.Module):
@@ -141,8 +146,8 @@ class ActorCriticArchitecture(nn.Module):
         return self.phi_network(observation)
 
     def act(self, phi):
-        x = torch.stack(self.actor_network(phi)).to(Config.DEVICE)
-        return torch.tanh(self.fully_connected_action(x))
+        action = self.fully_connected_action(self.actor_network(phi))
+        return torch.tanh(action)
 
     def criticize(self, phi, action):
         return self.fully_connected_critic(self.critic_network(

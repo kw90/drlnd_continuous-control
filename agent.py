@@ -47,11 +47,13 @@ class BaseAgent():
         task.reset()
         while True:
             action = self.evaluation_step(task.states)
-            state, reward, done, info = task.step(action)
-            ret = info[0]['episodic_return']
-            if ret is not None:
+            task.step(action)
+            state = task.environment_info.vector_observations
+            rewards = task.environment_info.rewards
+            done = task.environment_info.local_done
+            if done:
                 break
-        return ret
+        return rewards
 
     def evaluation_episodes(self):
         episodic_returns = []
@@ -70,3 +72,9 @@ class BaseAgent():
         return {
             'episodic_return_test': np.mean(episodic_returns),
         }
+
+    def record_online_return(self, rewards, offset=0):
+        for i, reward in enumerate(rewards):
+            if reward is not None:
+                self.logger.add_scalar('episodic_return_train', reward, self.total_steps + offset)
+                self.logger.info('steps %d, episodic_return_train %s' % (self.total_steps + offset, reward))

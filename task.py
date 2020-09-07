@@ -26,6 +26,7 @@ class Task():
         self.brain_name = self.environment.brain_names[0]
         self.brain = self.environment.brains[self.brain_name]
         self.is_training = is_training
+        self.environment_info = None
 
     def reset(self):
         if self.is_training:
