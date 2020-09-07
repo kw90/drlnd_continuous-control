@@ -3,6 +3,10 @@
 Train an agent to solve the `Reacher` Unity Environment from the Deep Reinforcement
 Learning Nanodegree on Udacity.
 
+- TODO: Train for ~500000 episodes and save model
+  - set configs
+    - config.max_steps = 500000
+    - config.save_interval = int(1e5)
 - TODO: Add trained example run
 - TODO: Add reward plot
 - TODO: Add description and link detailed report
