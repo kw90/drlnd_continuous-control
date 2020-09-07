@@ -25,8 +25,7 @@ install:
 	conda create --name drlnd_control python=3.6
 	($(CONDA_ACTIVATE) drlnd_control ; python --version)
 	conda install mpi4py
-	pip install -r $(PWD)/requirements.txt
-	python -m ipykernel install --user --name drlnd_control --display-name "drlnd_control"
+	pip3 install -r $(PWD)/requirements.txt
 
 start:
 	($(CONDA_ACTIVATE) drlnd_control ; jupyter notebook --ip=127.0.0.1 --port=8888 --NotebookApp.token='$(NB_TOKEN)' --NotebookApp.password='')
